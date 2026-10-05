@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogger Battle — VIP Edition</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0b0e; color: #f3f4f6; }
+        .gold-gradient { background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%); }
+        .gold-text { background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gold-border { border-image: linear-gradient(to bottom right, #BF953F, #AA771C) 1; }
+        .vip-card { background: linear-gradient(145deg, #16161a 0%, #0f0f12 100%); border: 1px solid rgba(191, 149, 63, 0.3); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen pb-24">
+
+    <!-- HEADER -->
+    <header class="w-full px-4 py-3 flex justify-between items-center vip-card sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
+        <div class="flex items-center space-x-2">
+            <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center text-black font-extrabold text-lg shadow-lg">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <div>
+                <h1 class="font-extrabold text-lg tracking-wider gold-text">BLOGGER BATTLE</h1>
+                <p class="text-[10px] text-amber-200 uppercase tracking-widest">VIP Luxury League</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <div class="px-3 py-1 rounded-full bg-amber-950/60 border border-amber-500/40 flex items-center space-x-1.5">
+                <i class="fa-solid fa-coins text-amber-400 text-xs"></i>
+                <span id="user-coins" class="text-xs font-bold text-amber-200">150</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ASOSIY KONTENT QISMI (TABLAR) -->
+    <main class="flex-1 max-w-md w-full mx-auto p-4">
+
+        <!-- 1. KUN JANGI SAHIFASI -->
+        <section id="tab-home" class="space-y-5">
+            <div class="text-center space-y-1">
+                <span class="px-3 py-1 rounded-full text-[11px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                    <i class="fa-regular fa-clock"></i> KUN JANGI TUGASHIGA: <span id="countdown">23:45:12</span>
+                </span>
+                <h2 class="text-2xl font-black text-white pt-2">Kim G‘olib Bo‘ladi?</h2>
+            </div>
+
+            <!-- VS BATTLE CARD -->
+            <div class="vip-card rounded-2xl p-5 relative overflow-hidden shadow-2xl">
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
+                
+                <div class="flex justify-between items-center relative z-10">
+                    <!-- 1-Bloger -->
+                    <div class="text-center w-[42%]">
+                        <div class="relative inline-block mb-2">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Blogger 1" class="w-20 h-20 rounded-full object-cover p-0.5 gold-gradient shadow-lg">
+                            <span class="absolute bottom-0 right-0 bg-blue-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border border-black"><i class="fa-solid fa-check"></i></span>
+                        </div>
+                        <h3 class="font-bold text-sm text-white truncate">@doniyor_qayumov</h3>
+                        <p class="text-xs text-gray-400"><i class="fa-solid fa-users text-amber-500"></i> 1.2M</p>
+                        <span id="vote-count-1" class="text-xs font-extrabold gold-text block mt-1">48% (12,450)</span>
+                    </div>
+
+                    <!-- VS Badge -->
+                    <div class="w-[16%] flex flex-col items-center justify-center">
+                        <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center text-black font-black text-sm shadow-xl animate-pulse">
+                            VS
+                        </div>
+                    </div>
+
+                    <!-- 2-Bloger -->
+                    <div class="text-center w-[42%]">
+                        <div class="relative inline-block mb-2">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80" alt="Blogger 2" class="w-20 h-20 rounded-full object-cover p-0.5 gold-gradient shadow-lg">
+                            <span class="absolute bottom-0 right-0 bg-blue-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border border-black"><i class="fa-solid fa-check"></i></span>
+                        </div>
+                        <h3 class="font-bold text-sm text-white truncate">@sardor_team</h3>
+                        <p class="text-xs text-gray-400"><i class="fa-solid fa-users text-amber-500"></i> 1.5M</p>
+                        <span id="vote-count-2" class="text-xs font-extrabold gold-text block mt-1">52% (13,820)</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-800 h-2.5 rounded-full mt-5 overflow-hidden flex">
+                    <div id="bar-1" class="bg-amber-500 h-full transition-all duration-500" style="width: 48%"></div>
+                    <div id="bar-2" class="bg-amber-200 h-full transition-all duration-500" style="width: 52%"></div>
+                </div>
+            </div>
+
+            <!-- Ovoz berish tugmalari -->
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="openVerifyModal('Doniyor Qayumov')" class="py-3 px-4 rounded-xl gold-gradient text-black font-extrabold text-sm shadow-lg hover:opacity-95 transition active:scale-95 flex items-center justify-center space-x-2">
+                    <span>Doniyorga Ovoz Berish</span>
+                </button>
+                <button onclick="openVerifyModal('Sardor Team')" class="py-3 px-4 rounded-xl bg-neutral-900 border border-amber-500/50 text-amber-300 font-extrabold text-sm shadow-lg hover:bg-neutral-850 transition active:scale-95 flex items-center justify-center space-x-2">
+                    <span>Sardorga Ovoz Berish</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. HAFTALIK REYTING SAHIFASI -->
+        <section id="tab-leaderboard" class="space-y-4 hidden">
+            <div class="text-center">
+                <h2 class="text-xl font-extrabold gold-text">Haftalik Top-10 Liderlar</h2>
+                <p class="text-xs text-gray-400">Eng faol blogerlar va ularning o‘sish ko‘rsatkichi</p>
+            </div>
+            
+            <div class="space-y-2.5" id="leaderboard-list">
+                <!-- JS orqali to'ldiriladi -->
+            </div>
+        </section>
+
+        <!-- 3. SUPER OVOZLAR DO‘KONI (MONETIZATSIYA) -->
+        <section id="tab-store" class="space-y-4 hidden">
+            <div class="text-center">
+                <h2 class="text-xl font-extrabold gold-text">Super Ovozlar Do‘koni</h2>
+                <p class="text-xs text-gray-400">Sevimli blogeringizni yuqoriga ko‘taring!</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+                <div class="vip-card p-4 rounded-2xl flex justify-between items-center">
+                    <div>
+                        <span class="text-xs text-amber-400 font-bold uppercase">Fan Pack</span>
+                        <h4 class="font-extrabold text-lg text-white">10 Super Ovoz</h4>
+                        <p class="text-xs text-gray-400">Oddiy qo‘llab-quvvatlash</p>
+                    </div>
+                    <button onclick="buyPackage(10, '5,000 UZS')" class="px-4 py-2 rounded-xl gold-gradient text-black font-extrabold text-xs shadow-md">5,000 UZS</button>
+                </div>
+
+                <div class="vip-card p-4 rounded-2xl flex justify-between items-center border-amber-400 shadow-amber-500/10">
+                    <div>
+                        <span class="text-xs text-amber-400 font-bold uppercase">Power Player 🔥</span>
+                        <h4 class="font-extrabold text-lg text-white">50 Super Ovoz</h4>
+                        <p class="text-xs text-gray-400">Reytingni o‘zgartiring</p>
+                    </div>
+                    <button onclick="buyPackage(50, '20,000 UZS')" class="px-4 py-2 rounded-xl gold-gradient text-black font-extrabold text-xs shadow-md">20,000 UZS</button>
+                </div>
+
+                <div class="vip-card p-4 rounded-2xl flex justify-between items-center">
+                    <div>
+                        <span class="text-xs text-amber-400 font-bold uppercase">Ultimate Backer 👑</span>
+                        <h4 class="font-extrabold text-lg text-white">150 Super Ovoz</h4>
+                        <p class="text-xs text-gray-400">Mutlaq ustunlik</p>
+                    </div>
+                    <button onclick="buyPackage(150, '55,000 UZS')" class="px-4 py-2 rounded-xl gold-gradient text-black font-extrabold text-xs shadow-md">55,000 UZS</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PROFIL SAHIFASI -->
+        <section id="tab-profile" class="space-y-4 hidden">
+            <div class="vip-card p-5 rounded-2xl text-center space-y-3">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="User" class="w-20 h-20 rounded-full mx-auto p-1 gold-gradient">
+                <div>
+                    <h3 class="font-extrabold text-lg text-white" id="profile-name">Jandullaev Amir</h3>
+                    <p class="text-xs text-amber-400">VIP Member 👑</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-gray-800 text-left">
+                    <div class="bg-black/40 p-3 rounded-xl">
+                        <span class="text-[10px] text-gray-400 block">Berilgan ovozlar</span>
+                        <span class="font-extrabold text-white text-base">12 ta</span>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded-xl">
+                        <span class="text-[10px] text-gray-400 block">Balans</span>
+                        <span class="font-extrabold text-amber-400 text-base" id="profile-coins">150 Tanga</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- TELEGRAM ORQALI TASDIQLASH (MODAL POPUP) -->
+    <div id="verify-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="vip-card w-full max-w-sm rounded-3xl p-6 text-center space-y-4 relative border border-amber-500/50 shadow-2xl">
+            <button onclick="closeVerifyModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="w-14 h-14 rounded-full gold-gradient mx-auto flex items-center justify-center text-black text-2xl shadow-lg">
+                <i class="fa-brands fa-telegram"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-extrabold text-white">Telegram Orqali Tasdiqlang</h3>
+                <p class="text-xs text-gray-300 mt-1">Nakrutkalarning oldini olish va ovozingiz hisobga olinishi uchun botimizdan o‘ting.</p>
+            </div>
+            
+            <div class="bg-black/50 p-3 rounded-xl text-left space-y-1 text-xs text-gray-300">
+                <p>1. Botga o‘ting <i class="fa-solid fa-arrow-right text-amber-400"></i></p>
+                <p>2. <code class="text-amber-400 font-bold">/start</code> tugmasini bosing</p>
+                <p>3. Kanallarga obuna bo‘ling</p>
+            </div>
+
+            <button onclick="confirmVote()" class="w-full py-3 rounded-xl gold-gradient text-black font-extrabold text-sm shadow-lg hover:opacity-95 transition">
+                Telegram Botga O‘tish
+            </button>
+        </div>
+    </div>
+
+    <!-- NAVIGATION BAR (BOTTOM) -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto vip-card border-t border-amber-500/20 px-6 py-3 flex justify-between items-center z-40 rounded-t-2xl">
+        <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-amber-400" data-target="home">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px] font-semibold mt-1">Asosiy</span>
+        </button>
+        <button onclick="switchTab('leaderboard')" class="nav-btn flex flex-col items-center text-gray-400 hover:text-amber-400" data-target="leaderboard">
+            <i class="fa-solid fa-trophy text-lg"></i>
+            <span class="text-[10px] font-semibold mt-1">Reyting</span>
+        </button>
+        <button onclick="switchTab('store')" class="nav-btn flex flex-col items-center text-gray-400 hover:text-amber-400" data-target="store">
+            <i class="fa-solid fa-store text-lg"></i>
+            <span class="text-[10px] font-semibold mt-1">Do‘kon</span>
+        </button>
+        <button onclick="switchTab('profile')" class="nav-btn flex flex-col items-center text-gray-400 hover:text-amber-400" data-target="profile">
+            <i class="fa-solid fa-user text-lg"></i>
+            <span class="text-[10px] font-semibold mt-1">Profil</span>
+        </button>
+    </nav>
+
+    <!-- JAVASCRIPT LOGIKASI -->
+    <script>
+        let selectedBlogger = "";
+        let userCoins = 150;
+
+        // Tablar o'rtasida o'tish
+        function switchTab(tabId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-amber-400');
+                btn.classList.add('text-gray-400');
+                if(btn.dataset.target === tabId) {
+                    btn.classList.remove('text-gray-400');
+                    btn.classList.add('text-amber-400');
+                }
+            });
+
+            if(tabId === 'leaderboard') loadLeaderboard();
+        }
+
+        // Reyting jadvalini render qilish
+        function loadLeaderboard() {
+            const list = document.getElementById('leaderboard-list');
+            if(list.children.length > 0) return; // Allaqachon yuklangan bo'lsa
+            
+            const bloggers = [
+                {name: "@doniyor_qayumov", subs: "1.5M", score: "158,500", growth: "+12%"},
+                {name: "@sardor_team", subs: "1.2M", score: "142,100", growth: "+9%"},
+                {name: "@khabib_uz", subs: "950K", score: "129,300", growth: "+15%"},
+                {name: "@alimoff_f", subs: "880K", score: "115,800", growth: "+7%"},
+                {name: "@lolaofficial_", subs: "790K", score: "108,200", growth: "+10%"}
+            ];
+
+            bloggers.forEach((b, index) => {
+                let crownColor = index === 0 ? "text-yellow-400" : index === 1 ? "text-gray-300" : index === 2 ? "text-amber-600" : "text-gray-500";
+                list.innerHTML += `
+                    <div class="vip-card p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <span class="font-black text-sm w-6 text-center ${crownColor}">#${index+1}</span>
+                            <div>
+                                <h4 class="font-bold text-xs text-white">${b.name}</h4>
+                                <span class="text-[10px] text-gray-400">${b.subs} obunachi</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-extrabold gold-text">⭐ ${b.score}</span>
+                            <span class="text-[10px] text-green-400 block">${b.growth}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Modal oynani ochish
+        function openVerifyModal(blogger) {
+            selectedBlogger = blogger;
+            document.getElementById('verify-modal').classList.remove('hidden');
+        }
+
+        // Modalni yopish
+        function closeVerifyModal() {
+            document.getElementById('verify-modal').classList.add('hidden');
+        }
+
+        // Tasdiqlash tugmasi
+        function confirmVote() {
+            alert(`Ovozingiz ${selectedBlogger} uchun qabul qilindi! Telegram botga yo‘naltirilmoqda...`);
+            closeVerifyModal();
+            // Haqiqiy loyihada bu yerda window.location.href = "https://t.me/sizning_botingiz"; ishlatiladi.
+        }
+
+        // Paket sotib olish
+        function buyPackage(amount, price) {
+            if(confirm(`${price} evaziga ${amount} ta Super Ovoz sotib olishni tasdiqlaysizmi?`)) {
+                userCoins += amount;
+                document.getElementById('user-coins').innerText = userCoins;
+                document.getElementById('profile-coins').innerText = userCoins + " Tanga";
+                alert("Muvaffaqiyatli xarid qilindi! Ovozlar balansingizga qo'shildi.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+- [Telegram library choice](telegram-library-choice.md) — Keep BattleChat on grammY unless a secure, compatible alternative is chosen.

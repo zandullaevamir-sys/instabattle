@@ -1,0 +1,30 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "krXrXhu23_97ZnQPBifYi"
+uri = "file://deliverables/BattleChat_Sayt_Tavsifi_Claude_uchun.docx"
+type = "word_document"
+title = "BattleChat — sayt tavsifi (Claude uchun)"
+description = "Word hujjati: saytning ishlash oqimi, mavjud bo‘limlari, prototip va haqiqiy funksiyalar farqi, kontent yo‘nalishlari va Claude uchun tayyor prompt."
+logical_id = "a4ae2b1f-47b1-46eb-8c6a-a2a22a54c3a0"
+content_hash = "sha256:0fc754929e8bab86e52a133883c83d434f72666fe1ffeece76a44edab1c507da"
+size = 43702
+mtime_ms = 1790930446225
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:1e9e0e93-f4f6-449a-b342-fffff71b367f/a4ae2b1f-47b1-46eb-8c6a-a2a22a54c3a0/a28e29a1-913a-4d62-a328-1a41add9f2e9"
+storage_version_token = "1790930453092773"
+content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+[[outputs]]
+id = "lXBx0MZvug-xm2lr5llrP"
+uri = "file://BattleChat_Sayt_Tavsifi_Claude_uchun.docx"
+type = "word_document"
+title = "BattleChat — Word hujjati"
+description = "Claude’ga yuklash uchun sayt ishlash tartibi, xususiyatlar va prototip cheklovlari."
+logical_id = "16aa3f4d-652f-4f12-bda4-441479ce424b"
+content_hash = "sha256:0fc754929e8bab86e52a133883c83d434f72666fe1ffeece76a44edab1c507da"
+size = 43702
+mtime_ms = 1790930563641
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:1e9e0e93-f4f6-449a-b342-fffff71b367f/16aa3f4d-652f-4f12-bda4-441479ce424b/f5a745eb-c5ed-4556-85aa-27f741abe42e"
+storage_version_token = "1790930571363600"
+content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"

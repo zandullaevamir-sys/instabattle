@@ -1,0 +1,201 @@
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const TelegramBot = require('node-telegram-bot-api');
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const ROOT_DIR = __dirname;
+const DATA_DIR = path.join(ROOT_DIR, 'data');
+const DATA_FILE = path.join(DATA_DIR, 'battle.json');
+
+const defaultState = {
+  userCoins: 150,
+  votes: {
+    'Doniyor Qayumov': 12450,
+    'Sardor Team': 13820
+  }
+};
+
+function ensureDataFile() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+
+  if (!fs.existsSync(DATA_FILE)) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(defaultState, null, 2));
+  }
+}
+
+function readState() {
+  ensureDataFile();
+  const raw = fs.readFileSync(DATA_FILE, 'utf8');
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    return JSON.parse(JSON.stringify(defaultState));
+  }
+}
+
+function writeState(nextState) {
+  ensureDataFile();
+  fs.writeFileSync(DATA_FILE, JSON.stringify(nextState, null, 2));
+}
+
+function getVotePercentages(votes) {
+  const names = Object.keys(votes);
+  const total = names.reduce((sum, name) => sum + (Number(votes[name]) || 0), 0) || 1;
+
+  return names.reduce((result, name) => {
+    const value = Number(votes[name]) || 0;
+    result[name] = {
+      count: value,
+      percent: Math.round((value / total) * 100)
+    };
+    return result;
+  }, {});
+}
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static(ROOT_DIR));
+
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, message: 'BattleChat backend is running' });
+});
+
+app.get('/api/battle', (req, res) => {
+  const state = readState();
+  res.json({
+    userCoins: state.userCoins,
+    votes: getVotePercentages(state.votes),
+    meta: {
+      title: 'BattleChat',
+      status: 'active'
+    }
+  });
+});
+
+app.post('/api/vote', (req, res) => {
+  const blogName = req.body?.blogger;
+
+  if (!blogName || !['Doniyor Qayumov', 'Sardor Team'].includes(blogName)) {
+    return res.status(400).json({ error: 'Invalid blogger name' });
+  }
+
+  const state = readState();
+  if (!state.votes[blogName]) {
+    state.votes[blogName] = 0;
+  }
+
+  state.votes[blogName] += 120;
+  writeState(state);
+
+  return res.json({
+    ok: true,
+    blogger: blogName,
+    votes: getVotePercentages(state.votes),
+    userCoins: state.userCoins
+  });
+});
+
+app.post('/api/store/buy', (req, res) => {
+  const amount = Number(req.body?.amount || 0);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return res.status(400).json({ error: 'Invalid amount' });
+  }
+
+  const state = readState();
+  state.userCoins += amount;
+  writeState(state);
+
+  return res.json({
+    ok: true,
+    userCoins: state.userCoins,
+    purchased: amount
+  });
+});
+
+app.post('/api/admin/boost', (req, res) => {
+  const { name, count } = req.body || {};
+
+  if (!name || !Number.isFinite(Number(count))) {
+    return res.status(400).json({ error: 'Name and count are required' });
+  }
+
+  const state = readState();
+  if (!state.votes[name]) {
+    state.votes[name] = 0;
+  }
+
+  state.votes[name] += Number(count);
+  writeState(state);
+
+  return res.json({
+    ok: true,
+    name,
+    count: state.votes[name],
+    votes: getVotePercentages(state.votes)
+  });
+});
+
+app.post('/api/admin/reset', (req, res) => {
+  const resetState = JSON.parse(JSON.stringify(defaultState));
+  writeState(resetState);
+
+  return res.json({
+    ok: true,
+    state: resetState
+  });
+});
+
+app.post('/api/telegram/webhook', (req, res) => {
+  const payload = req.body || {};
+  const message = payload.message || {};
+  const chatId = message.chat && message.chat.id;
+  const text = message.text || '';
+
+  if (!chatId) {
+    return res.status(400).json({ ok: false, message: 'Missing chat id' });
+  }
+
+  if (text === '/start') {
+    return res.json({ ok: true, reply: 'BattleChat botga xush kelibsiz! Ovoz berish va admin uchun tayyor.' });
+  }
+
+  return res.json({ ok: true, message: 'Webhook received' });
+});
+
+if (process.env.BOT_TOKEN) {
+  const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
+
+  bot.onText(/\/start/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(
+      chatId,
+      'BattleChat botga xush kelibsiz! /start bosdingiz. Ovoz berish yoki admin panel bilan ishlash uchun saytni oching.'
+    );
+  });
+
+  console.log('Telegram bot started with polling enabled.');
+} else {
+  console.log('Telegram bot disabled: set BOT_TOKEN to enable live bot integration.');
+}
+
+app.get('*', (req, res) => {
+  const indexPath = path.join(ROOT_DIR, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+    return;
+  }
+  res.status(404).send('Not found');
+});
+
+app.listen(PORT, () => {
+  console.log(`BattleChat server running on http://localhost:${PORT}`);
+});
