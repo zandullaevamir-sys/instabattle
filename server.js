@@ -19,7 +19,7 @@ app.get('/styles.css', (req, res) => {
 });
 
 app.get('/healthz', (req, res) => {
-  res.json({ ok: true, service: 'BattleChat site' });
+  res.json({ ok: true, service: 'BattleChat site', port: PORT });
 });
 
 app.use((req, res) => {
@@ -48,7 +48,8 @@ function getPublicSiteUrl() {
 function initTelegramBot() {
   const token = process.env.BOT_TOKEN;
   if (!token) {
-    throw new Error('BOT_TOKEN is not configured. Add it through Replit Secrets.');
+    console.warn('BOT_TOKEN is not configured. Telegram bot is disabled for this deployment.');
+    return null;
   }
 
   const bot = new Bot(token);
@@ -83,9 +84,8 @@ function initTelegramBot() {
       console.log(`Telegram connected as @${username}. Send /start to test the bot.`);
     }
   }).catch((error) => {
-    // Do not log the full error: API errors may contain the bot token in a URL.
     if (error.error_code === 401) {
-      console.error('Telegram rejected BOT_TOKEN. Check the token saved in Replit Secrets.');
+      console.error('Telegram rejected BOT_TOKEN. Check the token saved in Render Environment Variables.');
     } else if (error.error_code === 409) {
       console.error('Telegram polling conflict: another process is already using this bot token.');
     } else {
@@ -103,7 +103,9 @@ if (require.main === module) {
   try {
     const bot = initTelegramBot();
     const stop = () => {
-      bot.stop();
+      if (bot && typeof bot.stop === 'function') {
+        bot.stop();
+      }
       webServer.close();
     };
     process.once('SIGINT', stop);
